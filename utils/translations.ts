@@ -3,7 +3,7 @@ export type Language = "id" | "en";
 export const translations = {
   id: {
     appName: "Qimey",
-    title: "Lihat ke mana uang Anda pergi sebelum uang itu tiba.",
+    title: "Simulasi masa depan finansialmu",
     subtitle:
       "Ketahui sisa saldo tabungan kumulatif Anda dari bulan berjalan sampai Desember secara transparan dan aman di browser lokal Anda.",
 
@@ -112,7 +112,7 @@ export const translations = {
   },
   en: {
     appName: "Qimey",
-    title: "See where your money goes before it gets there.",
+    title: "Simulate your financial future",
     subtitle:
       "Know your cumulative savings balance from the current month until December transparently and securely in your local browser.",
 

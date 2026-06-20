@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "Qimey - Kalkulator Arus Kas Akhir Tahun",
   description:
     "Ketahui sisa saldo tabungan kumulatif Anda dari bulan berjalan sampai Desember secara transparan dan aman di browser lokal Anda.",
+  icons: {
+    icon: "/qimey.ico",
+  },
 };
 
 export const viewport: Viewport = {

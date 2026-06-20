@@ -6,6 +6,7 @@ import { calculateProjection } from "../utils/finance";
 import { Language, translations } from "../utils/translations";
 import FormContainer from "../components/FormContainer";
 import Dashboard from "../components/Dashboard";
+import Image from "next/image";
 
 const DEFAULT_STATE: FinancialState = {
   incomes: [
@@ -202,9 +203,16 @@ export default function MainPage() {
   return (
     <main className="min-h-screen bg-slateCustom-50 text-slateCustom-900 pb-16">
       {/* Premium Header */}
-      <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-slateCustom-100 px-4 py-3 shadow-sm">
+      <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-slateCustom-100 px-4 shadow-sm">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
+            <Image
+              src="/qimey.png"
+              alt="Qimey Logo"
+              width={50}
+              height={50}
+              className="object-contain"
+            />
             <span className="text-xl font-bold tracking-tight text-slateCustom-900 font-sans">
               Qimey
             </span>
