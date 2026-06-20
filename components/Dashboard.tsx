@@ -4,8 +4,6 @@ import React from "react";
 import dynamic from "next/dynamic";
 import { FinancialState, MonthlyProjection } from "../types/finance";
 import { Language, translations, INDONESIAN_MONTHS, ENGLISH_MONTHS } from "../utils/translations";
-import DashHero from "./DashHero";
-import MetricsSummary from "./MetricsSummary";
 import CompositionBreakdown from "./CompositionBreakdown";
 import StatusDetails from "./StatusDetails";
 import { LuTriangleAlert } from "react-icons/lu";
@@ -52,9 +50,6 @@ export default function Dashboard({
     }
   }
 
-  const saldoAkhir = projections[projections.length - 1]?.saldo || 0;
-  const startMonthName = monthsList[startMonthIndex];
-
   const alertText = t.alertDetail
     .replace("{lastActiveMonth}", lastActiveMonthName)
     .replace("{nextMonth}", nextMonthName);
@@ -88,18 +83,6 @@ export default function Dashboard({
           </div>
         </div>
       )}
-
-      {/* Hero projections */}
-      <DashHero 
-        saldoAkhir={saldoAkhir}
-        startMonthName={startMonthName}
-        startYear={currentYear}
-        lang={lang}
-        currency={currency}
-      />
-
-      {/* Summary Metrics */}
-      <MetricsSummary projections={projections} lang={lang} currency={currency} />
 
       {/* Projection Chart */}
       <ProjectionChart projections={projections} lang={lang} currency={currency} />

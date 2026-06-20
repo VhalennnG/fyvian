@@ -68,6 +68,8 @@ export const translations = {
     // Global actions
     saveAuto: "Semua data Anda tersimpan secara otomatis di browser",
     calculateBtn: "Hitung Proyeksi Arus Kas ↗",
+    updateBtn: "Perbarui Proyeksi Arus Kas ↗",
+    upToDateBtn: "Proyeksi Sudah Terkini ✓",
     resetBtn: "Reset Data",
 
     // Dashboard Results
@@ -178,6 +180,8 @@ export const translations = {
     // Global actions
     saveAuto: "All your data is saved automatically in your browser",
     calculateBtn: "Calculate Cash Flow Projection ↗",
+    updateBtn: "Update Cash Flow Projection ↗",
+    upToDateBtn: "Projection Up to Date ✓",
     resetBtn: "Reset Data",
 
     // Dashboard Results

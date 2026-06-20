@@ -31,10 +31,14 @@ const DEFAULT_STATE: FinancialState = {
 export default function MainPage() {
   const [financialState, setFinancialState] =
     useState<FinancialState>(DEFAULT_STATE);
+  const [lastCalculatedState, setLastCalculatedState] =
+    useState<FinancialState | null>(null);
   const [hasCalculated, setHasCalculated] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [lang, setLang] = useState<Language>("id");
   const [currency, setCurrency] = useState<string>("Rp");
+  const [lastCalculatedCurrency, setLastCalculatedCurrency] =
+    useState<string>("");
 
   const [mounted, setMounted] = useState(false);
   const [startMonthIndex, setStartMonthIndex] = useState(5); // Default: Juni
@@ -52,26 +56,52 @@ export default function MainPage() {
     const savedCalc = localStorage.getItem("fyvian_has_calculated");
     const savedLang = localStorage.getItem("fyvian_lang") as Language;
     const savedCurrency = localStorage.getItem("fyvian_currency");
+    const savedLastState = localStorage.getItem("fyvian_last_calculated_state");
+    const savedLastCurrency = localStorage.getItem("fyvian_last_calculated_currency");
 
+    let loadedState: FinancialState | null = null;
     if (savedState) {
       try {
-        setFinancialState(JSON.parse(savedState));
+        const parsed = JSON.parse(savedState);
+        setFinancialState(parsed);
+        loadedState = parsed;
       } catch (e) {
         console.error("Failed to load saved state", e);
       }
     }
-    if (savedCalc === "true") {
-      setHasCalculated(true);
-    }
+    
     let activeLang: Language = "id";
     if (savedLang === "id" || savedLang === "en") {
       setLang(savedLang);
       activeLang = savedLang;
     }
+    
+    let loadedCurrency = "Rp";
     if (savedCurrency) {
       setCurrency(savedCurrency);
+      loadedCurrency = savedCurrency;
     } else {
-      setCurrency(activeLang === "en" ? "USD" : "Rp");
+      const defaultCurr = activeLang === "en" ? "USD" : "Rp";
+      setCurrency(defaultCurr);
+      loadedCurrency = defaultCurr;
+    }
+
+    if (savedCalc === "true") {
+      setHasCalculated(true);
+      if (savedLastState) {
+        try {
+          setLastCalculatedState(JSON.parse(savedLastState));
+        } catch (e) {
+          console.error("Failed to parse saved last state", e);
+        }
+      } else if (loadedState) {
+        setLastCalculatedState(loadedState);
+      }
+      if (savedLastCurrency) {
+        setLastCalculatedCurrency(savedLastCurrency);
+      } else {
+        setLastCalculatedCurrency(loadedCurrency);
+      }
     }
     setMounted(true);
   }, []);
@@ -124,6 +154,12 @@ export default function MainPage() {
     });
   };
 
+  // Check if current inputs differ from last calculated ones
+  const isDirty =
+    hasCalculated &&
+    (JSON.stringify(financialState) !== JSON.stringify(lastCalculatedState) ||
+      currency !== lastCalculatedCurrency);
+
   // 4. Form Validation and Submit handler
   const handleSubmit = () => {
     const newErrors: Record<string, string> = {};
@@ -149,6 +185,10 @@ export default function MainPage() {
     if (!isValid) {
       setErrors(newErrors);
       setHasCalculated(false);
+      setLastCalculatedState(null);
+      setLastCalculatedCurrency("");
+      localStorage.removeItem("fyvian_last_calculated_state");
+      localStorage.removeItem("fyvian_last_calculated_currency");
 
       setTimeout(() => {
         const el = document.getElementById("section-income");
@@ -161,6 +201,10 @@ export default function MainPage() {
 
     setErrors({});
     setHasCalculated(true);
+    setLastCalculatedState(financialState);
+    setLastCalculatedCurrency(currency);
+    localStorage.setItem("fyvian_last_calculated_state", JSON.stringify(financialState));
+    localStorage.setItem("fyvian_last_calculated_currency", currency);
 
     setTimeout(() => {
       const el = document.getElementById("dashboard-results");
@@ -174,12 +218,16 @@ export default function MainPage() {
     const freshDefault = JSON.parse(JSON.stringify(DEFAULT_STATE));
     setFinancialState(freshDefault);
     setHasCalculated(false);
+    setLastCalculatedState(null);
+    setLastCalculatedCurrency("");
     setErrors({});
     localStorage.setItem(
       "fyvian_financial_state",
       JSON.stringify(freshDefault),
     );
     localStorage.setItem("fyvian_has_calculated", "false");
+    localStorage.removeItem("fyvian_last_calculated_state");
+    localStorage.removeItem("fyvian_last_calculated_currency");
   };
 
   if (!mounted) {
@@ -195,9 +243,9 @@ export default function MainPage() {
     );
   }
 
-  // Calculate projections on-the-fly if hasCalculated is active
-  const projections: MonthlyProjection[] = hasCalculated
-    ? calculateProjection(financialState, startMonthIndex, currentYear)
+  // Calculate projections based on last calculated state (so edits don't auto-update until submitted)
+  const projections: MonthlyProjection[] = hasCalculated && lastCalculatedState
+    ? calculateProjection(lastCalculatedState, startMonthIndex, currentYear)
     : [];
 
   return (
@@ -334,17 +382,19 @@ export default function MainPage() {
           lang={lang}
           currency={currency}
           onCurrencyChange={setCurrency}
+          isDirty={isDirty}
+          hasCalculated={hasCalculated}
         />
 
         {/* Output Dashboard (scrolling down below the form) */}
         {hasCalculated && projections.length > 0 && (
           <Dashboard
             projections={projections}
-            state={financialState}
+            state={lastCalculatedState || financialState}
             startMonthIndex={startMonthIndex}
             currentYear={currentYear}
             lang={lang}
-            currency={currency}
+            currency={lastCalculatedCurrency || currency}
           />
         )}
       </div>
