@@ -3,9 +3,9 @@ export type Language = "id" | "en";
 export const translations = {
   id: {
     appName: "Qimey",
-    title: "Simulasi masa depan finansialmu",
+    title: "Perencanaan Masa Depan Finansialmu",
     subtitle:
-      "Ketahui sisa saldo tabungan kumulatif Anda dari bulan berjalan sampai Desember secara transparan dan aman di browser lokal Anda.",
+      "Ketahui sisa saldo tabungan kumulatif Anda dari bulan berjalan sampai periode perencanaan secara transparan dan cepat di browser lokal Anda.",
 
     // Form Sections
     incomeTitle: "Pendapatan",
@@ -132,7 +132,7 @@ export const translations = {
     endYear: "Tahun Akhir",
 
     // Report Table
-    reportTitle: "Laporan Simulasi Keuangan",
+    reportTitle: "Laporan Perencanaan Keuangan",
     reportSub: "Rincian arus kas bulanan dalam bentuk tabel",
     colMonth: "Bulan",
     colIncome: "Pendapatan",

@@ -100,7 +100,7 @@ export default function Dashboard({
 
       {/* Breakdown and Status List */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <CompositionBreakdown projections={projections} lang={lang} currency={currency} />
+        <CompositionBreakdown projections={projections} state={state} lang={lang} currency={currency} />
         <StatusDetails projections={projections} state={state} lang={lang} />
       </div>
 

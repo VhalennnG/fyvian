@@ -1,19 +1,21 @@
 "use client";
 
 import React from "react";
-import { MonthlyProjection } from "../types/finance";
+import { MonthlyProjection, FinancialState } from "../types/finance";
 import { formatCurrency } from "../utils/format";
 import { Language, translations } from "../utils/translations";
 import { LuInfo } from "react-icons/lu";
 
 interface Props {
   projections: MonthlyProjection[];
+  state: FinancialState;
   lang: Language;
   currency: string;
 }
 
 export default function CompositionBreakdown({
   projections,
+  state,
   lang,
   currency,
 }: Props) {
@@ -47,6 +49,9 @@ export default function CompositionBreakdown({
     0,
   );
 
+  const initialSavings = state.tabungan.include ? state.tabungan.saldoSaatIni : 0;
+  const totalSisaTabungan = totalCashflow + initialSavings;
+
   const totalOutflow =
     totalPajakPotongan +
     totalCicilanUtang +
@@ -54,16 +59,17 @@ export default function CompositionBreakdown({
     totalPengeluaranSekaliBayar;
   const totalPengeluaranMurni =
     totalCicilanUtang + totalPengeluaranRutin + totalPengeluaranSekaliBayar;
-  const base = Math.max(totalPendapatanKotor, totalOutflow);
+  const base = Math.max(totalPendapatanKotor + initialSavings, totalOutflow);
 
   const pctPendapatan = base > 0 ? (totalPendapatanKotor / base) * 100 : 0;
+  const pctInitialSavings = base > 0 ? (initialSavings / base) * 100 : 0;
   const pctPajak = base > 0 ? (totalPajakPotongan / base) * 100 : 0;
   const pctCicilan = base > 0 ? (totalCicilanUtang / base) * 100 : 0;
   const pctRutin = base > 0 ? (totalPengeluaranRutin / base) * 100 : 0;
   const pctOneTime = base > 0 ? (totalPengeluaranSekaliBayar / base) * 100 : 0;
-  const pctSisa = base > 0 ? (Math.max(0, totalCashflow) / base) * 100 : 0;
+  const pctSisa = base > 0 ? (Math.max(0, totalSisaTabungan) / base) * 100 : 0;
   const pctDefisit =
-    base > 0 ? (Math.abs(Math.min(0, totalCashflow)) / base) * 100 : 0;
+    base > 0 ? (Math.abs(Math.min(0, totalSisaTabungan)) / base) * 100 : 0;
 
 
   return (
@@ -89,6 +95,25 @@ export default function CompositionBreakdown({
             {formatCurrency(totalPendapatanKotor, currency)}
           </span>
         </div>
+
+        {/* Tabungan Awal */}
+        {initialSavings > 0 && (
+          <div className="flex items-center gap-3 pb-3 border-b border-slate-100 mb-3">
+            <div className="w-2.5 h-2.5 rounded-full bg-sky-500 flex-shrink-0" />
+            <span className="text-xs font-semibold text-slate-700 w-24 md:w-32 flex-shrink-0 truncate">
+              {lang === "id" ? "Tabungan Awal" : "Initial Savings"}
+            </span>
+            <div className="flex-grow h-2.5 bg-slate-100 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-sky-500 rounded-full transition-all duration-300"
+                style={{ width: `${pctInitialSavings}%` }}
+              />
+            </div>
+            <span className="text-xs font-bold text-sky-600 w-24 text-right">
+              {formatCurrency(initialSavings, currency)}
+            </span>
+          </div>
+        )}
 
         {/* Pajak & Potongan */}
         {totalPajakPotongan > 0 && (
@@ -169,23 +194,28 @@ export default function CompositionBreakdown({
         {/* Sisa (Ditabung) / Defisit */}
         <div className="flex items-center gap-3 pt-3 border-t border-slate-100 mt-3">
           <div
-            className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${totalCashflow >= 0 ? "bg-brand" : "bg-danger"}`}
+            className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${totalSisaTabungan >= 0 ? "bg-brand" : "bg-danger"}`}
           />
           <div className="text-xs font-semibold text-slate-700 w-24 md:w-32 flex-shrink-0 flex items-center gap-1">
             <span className="truncate">
-              {totalCashflow >= 0 ? t.compSavings : t.deficit}
+              {totalSisaTabungan >= 0 ? t.compSavings : t.deficit}
             </span>
-            {totalCashflow < 0 && (
+            {(totalSisaTabungan < 0 || initialSavings > 0) && (
               <span className="inline-block ml-0.5 group relative cursor-pointer text-slate-400 hover:text-slate-600">
                 <LuInfo size={12} className="inline mb-0.5" />
-                <span className="absolute bottom-full left-0 mb-2 hidden group-hover:block w-64 p-2.5 bg-slate-800 text-[10px] text-white rounded-lg shadow-lg z-50 text-left font-medium leading-normal whitespace-normal">
+                <span className="absolute bottom-full left-0 mb-2 hidden group-hover:block w-72 p-2.5 bg-slate-800 text-[10px] text-white rounded-lg shadow-lg z-50 text-left font-medium leading-normal whitespace-normal">
                   <div className="font-mono text-xs mb-1">
-                    {formatCurrency(totalPendapatanKotor - totalPajakPotongan, currency)} - {formatCurrency(totalPengeluaranMurni, currency)} = {formatCurrency(totalCashflow, currency)}
+                    {initialSavings > 0 ? `${formatCurrency(initialSavings, currency)} + ` : ""}
+                    {formatCurrency(totalPendapatanKotor - totalPajakPotongan, currency)} - {formatCurrency(totalPengeluaranMurni, currency)} = {formatCurrency(totalSisaTabungan, currency)}
                   </div>
                   <div className="text-[9px] text-slate-400 font-sans leading-tight">
                     {lang === "id"
-                      ? "(Pendapatan Bersih - Pengeluaran = Arus Kas)"
-                      : "(Net Income - Expenses = Cash Flow)"}
+                      ? initialSavings > 0
+                        ? "(Tabungan Awal + Pendapatan Bersih - Pengeluaran = Sisa Tabungan)"
+                        : "(Pendapatan Bersih - Pengeluaran = Arus Kas)"
+                      : initialSavings > 0
+                        ? "(Initial Savings + Net Income - Expenses = Remaining Balance)"
+                        : "(Net Income - Expenses = Cash Flow)"}
                   </div>
                 </span>
               </span>
@@ -194,16 +224,16 @@ export default function CompositionBreakdown({
           <div className="flex-grow h-2.5 bg-slate-100 rounded-full overflow-hidden">
             <div
               className={`h-full rounded-full transition-all duration-300 ${
-                totalCashflow >= 0 ? "bg-brand" : "bg-danger"
+                totalSisaTabungan >= 0 ? "bg-brand" : "bg-danger"
               }`}
-              style={{ width: `${totalCashflow >= 0 ? pctSisa : pctDefisit}%` }}
+              style={{ width: `${totalSisaTabungan >= 0 ? pctSisa : pctDefisit}%` }}
             />
           </div>
           <span
-            className={`text-xs font-bold w-24 text-right ${totalCashflow >= 0 ? "text-brand-dark" : "text-danger"}`}
+            className={`text-xs font-bold w-24 text-right ${totalSisaTabungan >= 0 ? "text-brand-dark" : "text-danger"}`}
           >
-            {totalCashflow >= 0 ? "+" : ""}
-            {formatCurrency(Math.abs(totalCashflow), currency)}
+            {totalSisaTabungan >= 0 ? "+" : ""}
+            {formatCurrency(Math.abs(totalSisaTabungan), currency)}
           </span>
         </div>
       </div>
