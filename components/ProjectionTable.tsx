@@ -301,25 +301,25 @@ export default function ProjectionTable({
               <th className="sticky left-0 z-10 bg-slate-50 text-left px-4 py-3 font-semibold text-slate-600 whitespace-nowrap">
                 {t.colMonth}
               </th>
-              <th className="text-right px-3 py-3 font-semibold text-slate-600 whitespace-nowrap">
+              <th className="text-right px-12 py-3 font-semibold text-slate-600 whitespace-nowrap">
                 {t.colIncome}
               </th>
-              <th className="text-right px-3 py-3 font-semibold text-slate-600 whitespace-nowrap">
+              <th className="text-right px-12 py-3 font-semibold text-slate-600 whitespace-nowrap">
                 {t.colTax}
               </th>
-              <th className="text-right px-3 py-3 font-semibold text-slate-600 whitespace-nowrap">
+              <th className="text-right px-12 py-3 font-semibold text-slate-600 whitespace-nowrap">
                 {t.colDebt}
               </th>
-              <th className="text-right px-3 py-3 font-semibold text-slate-600 whitespace-nowrap">
+              <th className="text-right px-12 py-3 font-semibold text-slate-600 whitespace-nowrap">
                 {t.colRoutine}
               </th>
-              <th className="text-right px-3 py-3 font-semibold text-slate-600 whitespace-nowrap">
+              <th className="text-right px-12 py-3 font-semibold text-slate-600 whitespace-nowrap">
                 {t.colOneTime}
               </th>
-              <th className="text-right px-3 py-3 font-semibold text-slate-600 whitespace-nowrap">
+              <th className="text-right px-12 py-3 font-semibold text-slate-600 whitespace-nowrap">
                 {t.colCashflow}
               </th>
-              <th className="text-right px-3 py-3 font-semibold text-slate-600 whitespace-nowrap">
+              <th className="text-right px-12 py-3 font-semibold text-slate-600 whitespace-nowrap">
                 {t.colBalance}
               </th>
               <th className="text-left px-4 py-3 font-semibold text-slate-600 whitespace-nowrap min-w-[160px]">
