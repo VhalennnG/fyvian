@@ -7,6 +7,7 @@ import { Language, translations } from "../utils/translations";
 import FormContainer from "../components/FormContainer";
 import Dashboard from "../components/Dashboard";
 import Image from "next/image";
+import { BsGithub } from "react-icons/bs";
 
 const DEFAULT_STATE: FinancialState = {
   incomes: [
@@ -29,17 +30,21 @@ const DEFAULT_STATE: FinancialState = {
   pengeluaranSekaliBayar: [],
 };
 
-function migrateState(state: any, startM: number, startY: number): FinancialState {
+function migrateState(
+  state: any,
+  startM: number,
+  startY: number,
+): FinancialState {
   if (!state) return state;
   const migrated = { ...state };
-  
+
   if (migrated.incomes && Array.isArray(migrated.incomes)) {
     migrated.incomes = migrated.incomes.map((inc: any) => {
       if (!inc.mulaiBulan) {
         const legacyMasa = inc.masaBulan;
         const mulaiBulan = { bulan: startM, tahun: startY };
         let selesaiBulan = null;
-        
+
         if (typeof legacyMasa === "number") {
           const totalMonths = legacyMasa;
           const endOffset = startM + totalMonths - 1;
@@ -48,7 +53,7 @@ function migrateState(state: any, startM: number, startY: number): FinancialStat
             tahun: startY + Math.floor(endOffset / 12),
           };
         }
-        
+
         const { masaBulan, ...rest } = inc;
         return {
           ...rest,
@@ -59,7 +64,7 @@ function migrateState(state: any, startM: number, startY: number): FinancialStat
       return inc;
     });
   }
-  
+
   if (migrated.cicilanUtang && Array.isArray(migrated.cicilanUtang)) {
     migrated.cicilanUtang = migrated.cicilanUtang.map((debt: any) => {
       if (!debt.mulaiBulan) {
@@ -70,7 +75,7 @@ function migrateState(state: any, startM: number, startY: number): FinancialStat
           bulan: endOffset % 12,
           tahun: startY + Math.floor(endOffset / 12),
         };
-        
+
         const { tenor, ...rest } = debt;
         return {
           ...rest,
@@ -81,7 +86,7 @@ function migrateState(state: any, startM: number, startY: number): FinancialStat
       return debt;
     });
   }
-  
+
   return migrated;
 }
 
@@ -120,7 +125,9 @@ export default function MainPage() {
     const savedLang = localStorage.getItem("fyvian_lang") as Language;
     const savedCurrency = localStorage.getItem("fyvian_currency");
     const savedLastState = localStorage.getItem("fyvian_last_calculated_state");
-    const savedLastCurrency = localStorage.getItem("fyvian_last_calculated_currency");
+    const savedLastCurrency = localStorage.getItem(
+      "fyvian_last_calculated_currency",
+    );
     const savedEndMonth = localStorage.getItem("fyvian_end_month");
     const savedEndYear = localStorage.getItem("fyvian_end_year");
 
@@ -151,13 +158,13 @@ export default function MainPage() {
         ],
       });
     }
-    
+
     let activeLang: Language = "id";
     if (savedLang === "id" || savedLang === "en") {
       setLang(savedLang);
       activeLang = savedLang;
     }
-    
+
     let loadedCurrency = "";
     if (savedCurrency) {
       setCurrency(savedCurrency);
@@ -295,7 +302,10 @@ export default function MainPage() {
     setLastCalculatedCurrency(currency);
     setLastCalculatedEndMonth(endMonthIndex);
     setLastCalculatedEndYear(endYear);
-    localStorage.setItem("fyvian_last_calculated_state", JSON.stringify(financialState));
+    localStorage.setItem(
+      "fyvian_last_calculated_state",
+      JSON.stringify(financialState),
+    );
     localStorage.setItem("fyvian_last_calculated_currency", currency);
 
     setTimeout(() => {
@@ -340,12 +350,19 @@ export default function MainPage() {
   }
 
   // Calculate projections based on last calculated state (so edits don't auto-update until submitted)
-  const projections: MonthlyProjection[] = hasCalculated && lastCalculatedState
-    ? calculateProjection(lastCalculatedState, startMonthIndex, currentYear, lastCalculatedEndMonth, lastCalculatedEndYear)
-    : [];
+  const projections: MonthlyProjection[] =
+    hasCalculated && lastCalculatedState
+      ? calculateProjection(
+          lastCalculatedState,
+          startMonthIndex,
+          currentYear,
+          lastCalculatedEndMonth,
+          lastCalculatedEndYear,
+        )
+      : [];
 
   return (
-    <main className="min-h-screen bg-slateCustom-50 text-slateCustom-900 pb-16">
+    <main className="min-h-screen bg-slateCustom-50 text-slateCustom-900">
       {/* Premium Header */}
       <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-slateCustom-100 px-4 shadow-sm">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
@@ -500,6 +517,28 @@ export default function MainPage() {
           />
         )}
       </div>
+
+      {/* Footer */}
+      <footer className="mt-16 border-t border-slateCustom-100 bg-white/60 backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Copyright */}
+          <p className="text-xs text-slateCustom-400 text-center">
+            © {new Date().getFullYear()} Qimey. All rights reserved.
+          </p>
+
+          {/* GitHub Link */}
+          <a
+            href="https://github.com/VhalennnG/qimey"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-slateCustom-200 bg-white text-slateCustom-700 text-xs font-medium hover:bg-slateCustom-50 hover:border-slateCustom-300 transition-all duration-200 shadow-sm"
+          >
+            {/* GitHub SVG Icon */}
+            <BsGithub />
+            View on GitHub
+          </a>
+        </div>
+      </footer>
     </main>
   );
 }
