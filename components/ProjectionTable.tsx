@@ -12,7 +12,7 @@ import {
 import { LuTable2, LuDownload } from "react-icons/lu";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
-import "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 
 interface Props {
   projections: MonthlyProjection[];
@@ -209,7 +209,7 @@ export default function ProjectionTable({
       ];
     });
 
-    (doc as any).autoTable({
+    autoTable(doc, {
       head: headers,
       body: body,
       startY: 75,
