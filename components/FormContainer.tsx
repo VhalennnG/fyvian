@@ -98,7 +98,7 @@ export default function FormContainer({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              {lang === "id" ? "Mata Uang Proyeksi" : "Projection Currency"}
+              {lang === "id" ? "Mata Uang" : "Currency"}
             </h4>
             <p className="text-[11px] text-slate-400 mt-0.5">
               {lang === "id"

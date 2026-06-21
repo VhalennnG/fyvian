@@ -124,7 +124,7 @@ export default function ProjectionTable({
     link.setAttribute("href", url);
     link.setAttribute(
       "download",
-      `Proyeksi_Keuangan_${new Date().getFullYear()}.csv`,
+      `Laporan_Perencanaan_Keuangan_${new Date().getFullYear()}.csv`,
     );
     document.body.appendChild(link);
     link.click();
@@ -152,10 +152,14 @@ export default function ProjectionTable({
 
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Proyeksi Keuangan");
+    XLSX.utils.book_append_sheet(
+      workbook,
+      worksheet,
+      "Laporan Perencanaan Keuangan",
+    );
     XLSX.writeFile(
       workbook,
-      `Proyeksi_Keuangan_${new Date().getFullYear()}.xlsx`,
+      `Laporan_Perencanaan_Keuangan_${new Date().getFullYear()}.xlsx`,
     );
   };
 
@@ -219,7 +223,7 @@ export default function ProjectionTable({
       alternateRowStyles: { fillColor: [248, 250, 252] },
     });
 
-    doc.save(`Proyeksi_Keuangan_${new Date().getFullYear()}.pdf`);
+    doc.save(`Laporan_Perencanaan_Keuangan_${new Date().getFullYear()}.pdf`);
   };
 
   // Detect year boundaries for separator rows

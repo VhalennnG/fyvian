@@ -40,9 +40,10 @@ export const translations = {
 
     // Savings
     savingsTitle: "Tabungan Saat Ini",
-    savingsSub: "Proyeksikan sisa saldo Anda dengan atau tanpa tabungan awal.",
-    savingsToggle: "Sertakan saldo tabungan dalam proyeksi",
-    savingsToggleSub: "Saldo awal akan ditambahkan ke proyeksi bulan ini",
+    savingsSub:
+      "Tambahkan saldo tabungan saat ini untuk mendapatkan gambaran keuangan yang lebih lengkap.",
+    savingsToggle: "Sertakan saldo tabungan saat ini",
+    savingsToggleSub: "Saldo akan digunakan sebagai saldo awal perhitungan",
     savingsAmount: "Saldo Saat Ini",
     savingsBadge: "Disertakan",
 
@@ -71,25 +72,29 @@ export const translations = {
 
     // Global actions
     saveAuto: "Semua data Anda tersimpan secara otomatis di browser",
-    calculateBtn: "Hitung Proyeksi Arus Kas ↗",
-    updateBtn: "Perbarui Proyeksi Arus Kas ↗",
-    upToDateBtn: "Proyeksi Sudah Terkini ✓",
+    calculateBtn: "Hitung Cashflow ↗",
+    updateBtn: "Perbarui Cashflow ↗",
+    upToDateBtn: "Cashflow Sudah Up to Date ✓",
     resetBtn: "Reset Data",
 
     // Dashboard Results
-    dashHeader: "Dashboard Hasil Proyeksi",
+    dashHeader: "Dashboard Perencanaan Keuangan",
     dashSub: "Analisis arus kas kumulatif Anda hingga akhir tahun berjalan.",
+
     alertHeader: "Peringatan Kontrak Kerja / Pendapatan Habis",
     alertDetail:
-      "Seluruh pendapatan Anda berakhir pada {lastActiveMonth}. Proyeksi bulan {nextMonth} hingga akhir periode dihitung tanpa pemasukan sama sekali.",
-    projDec: "Proyeksi Saldo Akhir Desember",
-    calculatedFrom: "Proyeksi dihitung penuh mulai dari awal",
+      "Seluruh pendapatan Anda berakhir pada {lastActiveMonth}. Perhitungan bulan {nextMonth} hingga akhir periode dilakukan tanpa pemasukan sama sekali.",
+
+    projDec: "Saldo Akhir Desember",
+    calculatedFrom: "Perhitungan dilakukan penuh mulai dari awal",
+
     totalNetIncome: "Total Pendapatan Bersih",
     totalGrossIncome: "Total Pendapatan (Kotor)",
     totalTaxes: "Total Pajak & Potongan",
     totalDebts: "Total Cicilan & Utang",
     debtToIncomeRatio: "Rasio Cicilan / Pendapatan",
-    chartTitle: "Proyeksi Saldo Bulanan",
+
+    chartTitle: "Perkembangan Saldo Bulanan",
     positiveBalance: "Saldo Positif",
     deficit: "Defisit",
     paidOff: "Lunas Cicilan",
@@ -116,13 +121,13 @@ export const translations = {
     addTaxShort: "+ Tambah",
     optional: "opsional",
     loading: "Memuat kalkulator Qimey...",
-    subTitleProj: "Proyeksi Keuangan Mandiri",
+    subTitleProj: "Perencanaan Keuangan Mandiri",
     cashflowTitle: "Arus Kas Bulanan",
     grossIncome: "Pendapatan Bersih",
 
-    // Projection Range
-    projectionRange: "Rentang Proyeksi",
-    projectionRangeSub: "Pilih sampai bulan dan tahun berapa proyeksi Anda",
+    projectionRange: "Periode Perencanaan",
+    projectionRangeSub:
+      "Pilih bulan dan tahun akhir untuk perencanaan keuangan Anda",
     endMonth: "Bulan Akhir",
     endYear: "Tahun Akhir",
 
@@ -144,9 +149,10 @@ export const translations = {
   },
   en: {
     appName: "Qimey",
-    title: "Simulate your financial future",
+    title: "Plan Your Financial Future",
+
     subtitle:
-      "Know your cumulative savings balance from the current month until December transparently and securely in your local browser.",
+      "Understand your cumulative savings balance from the current month through your selected planning period, securely in your local browser.",
 
     // Form Sections
     incomeTitle: "Income",
@@ -181,10 +187,11 @@ export const translations = {
 
     // Savings
     savingsTitle: "Current Savings",
-    savingsSub: "Project your balance with or without starting savings.",
-    savingsToggle: "Include savings balance in projection",
+    savingsSub:
+      "Include your current savings balance for a more complete financial overview.",
+    savingsToggle: "Include current savings balance",
     savingsToggleSub:
-      "Starting balance will be added to this month's projection",
+      "This balance will be used as the starting balance for calculations",
     savingsAmount: "Current Balance",
     savingsBadge: "Included",
 
@@ -213,65 +220,86 @@ export const translations = {
 
     // Global actions
     saveAuto: "All your data is saved automatically in your browser",
-    calculateBtn: "Calculate Cash Flow Projection ↗",
-    updateBtn: "Update Cash Flow Projection ↗",
-    upToDateBtn: "Projection Up to Date ✓",
+    calculateBtn: "Calculate Cash Flow ↗",
+    updateBtn: "Update Cash Flow ↗",
+    upToDateBtn: "Cash Flow Is Up to Date ✓",
     resetBtn: "Reset Data",
 
     // Dashboard Results
-    dashHeader: "Projection Results Dashboard",
+    // Dashboard Results
+    dashHeader: "Financial Planning Dashboard",
     dashSub:
-      "Analysis of your cumulative cash flow until the end of the current year.",
+      "Analysis of your cumulative cash flow through the end of the current year.",
+
     alertHeader: "Income / Contract Expiry Alert",
     alertDetail:
-      "All your income ends in {lastActiveMonth}. Projections for {nextMonth} through end of projection period are calculated with zero income.",
-    projDec: "Projected Balance End of December",
+      "All your income ends in {lastActiveMonth}. Calculations from {nextMonth} through the end of the selected period assume no income.",
+
+    projDec: "End-of-December Balance",
     calculatedFrom:
-      "Projections calculated in full starting from the beginning of",
+      "Calculations performed in full starting from the beginning of",
+
     totalNetIncome: "Total Net Income",
-    totalGrossIncome: "Total Income",
+    totalGrossIncome: "Total Gross Income",
     totalTaxes: "Total Taxes & Deductions",
     totalDebts: "Total Debt & Installments",
-    debtToIncomeRatio: "Debt to Income Ratio",
-    chartTitle: "Monthly Balance Projection",
+    debtToIncomeRatio: "Debt-to-Income Ratio",
+
+    chartTitle: "Monthly Balance Trend",
+
     positiveBalance: "Positive Balance",
     deficit: "Deficit",
     paidOff: "Paid Off",
+
     zoom3b: "3 Months",
     zoom6b: "6 Months",
     zoom1t: "1 Year",
     zoomSemua: "All",
-    compositionTitle: "Expenses & Savings Composition — Cumulative Total",
+
+    compositionTitle:
+      "Expense & Remaining Balance Composition — Cumulative Total",
+
     compTax: "Taxes & Deductions",
     compDebt: "Debt & Installments",
     compRoutine: "Routine Expenses",
-    compOneTime: "One-Time Expense",
-    compSavings: "Savings (Remaining)",
-    detailStatusTitle: "Contract & Tenor Status Details",
+    compOneTime: "One-Time Expenses",
+    compSavings: "Remaining Balance",
+
+    detailStatusTitle: "Contract & Duration Status Details",
+
     paidOffIn: "paid off in",
     endsIn: "ends in",
     paidOffBadge: "paid off",
-    endedBadge: "ends",
+    endedBadge: "ended",
+
     errorIncomeNominal: "Income amount is required and must be greater than 0.",
-    errorGlobalIncome: "Must have at least 1 income source.",
-    tooltipAssumption: "Assumed 30 days/month and 4.33 weeks/month.",
+    errorGlobalIncome: "At least 1 income source is required.",
+
+    tooltipAssumption: "Assumes 30 days per month and 4.33 weeks per month.",
+
     changeTax: "Change",
     addTaxShort: "+ Add",
     optional: "optional",
+
     loading: "Loading Qimey calculator...",
-    subTitleProj: "Self-guided Financial Projection",
+
+    subTitleProj: "Personal Financial Planning",
+
     cashflowTitle: "Monthly Cash Flow",
     grossIncome: "Net Income",
 
-    // Projection Range
-    projectionRange: "Projection Range",
-    projectionRangeSub: "Set the end month and year for your projections",
+    // Planning Period
+    projectionRange: "Planning Period",
+    projectionRangeSub:
+      "Choose the ending month and year for your financial plan",
+
     endMonth: "End Month",
     endYear: "End Year",
 
     // Report Table
-    reportTitle: "Financial Simulation Report",
+    reportTitle: "Financial Planning Report",
     reportSub: "Monthly cash flow breakdown in table format",
+
     colMonth: "Month",
     colIncome: "Income",
     colTax: "Tax",
@@ -281,6 +309,7 @@ export const translations = {
     colCashflow: "Cash Flow",
     colBalance: "Balance",
     colNotes: "Notes",
+
     notesPaidOff: "Paid Off",
     notesEnded: "Ended",
     notesDeficit: "Deficit",
