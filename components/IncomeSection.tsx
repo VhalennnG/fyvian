@@ -136,7 +136,7 @@ export default function IncomeSection({
           return (
             <div
               key={income.id}
-              className={`p-5 rounded-xl border border-brand-light/30 bg-white shadow-sm relative overflow-hidden transition-all duration-200 ${
+              className={`p-5 rounded-xl border border-brand-light/30 bg-white shadow-sm relative focus-within:z-20 transition-all duration-200 ${
                 hasError
                   ? "border-danger ring-1 ring-danger/50"
                   : "hover:border-brand/40"

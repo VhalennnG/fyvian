@@ -79,7 +79,7 @@ export default function DebtSection({
         {debts.map((debt, index) => (
           <div
             key={debt.id}
-            className="p-5 rounded-xl border border-warning/30 bg-white shadow-sm hover:border-warning/50 transition-all duration-200"
+            className="p-5 rounded-xl border border-warning/30 bg-white shadow-sm hover:border-warning/50 relative focus-within:z-20 transition-all duration-200"
             style={{ borderLeft: "4px solid #ef9f27" }}
           >
             {/* Header */}
